@@ -8,7 +8,9 @@
 
 #include <algorithm>
 #include <array>
+#include <functional>
 #include <iterator>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -139,6 +141,9 @@ namespace XSwiftBus
         //! Is message box currently visible?
         bool isVisible() const { return m_visible; }
 
+        //! Set the callback for toggling aircraft labels
+        void setToggleLabelsCallback(std::function<void()> callback);
+
     private:
         void show()
         {
@@ -171,6 +176,7 @@ namespace XSwiftBus
         CCommand m_scrollDownCommand;
         CCommand m_scrollToTopCommand;
         CCommand m_scrollToBottomCommand;
+        std::unique_ptr<CCommand> m_toggleLabelsCommand;
     };
 } // namespace XSwiftBus
 

@@ -26,6 +26,7 @@
 #include "menus.h"
 #include "config.h"
 #include "settings.h"
+#include "command.h"
 
 #include "XPLM/XPLMCamera.h"
 // clang-format on
