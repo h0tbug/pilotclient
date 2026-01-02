@@ -98,7 +98,7 @@ namespace swift::misc
             begin = std::find_if(begin, s.end(), notPredicate);
             if (begin == s.end()) { return result; }
             auto end = std::find_if(begin, s.end(), predicate);
-            result.push_back(QStringView(s).slice(std::distance(s.begin(), begin), std::distance(begin, end)));
+            result.push_back(QStringView(s).sliced(std::distance(s.begin(), begin), std::distance(begin, end)));
             begin = end;
         }
     }

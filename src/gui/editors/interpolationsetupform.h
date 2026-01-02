@@ -53,7 +53,7 @@ namespace swift::gui::editors
         QList<QCheckBox *> m_allCheckBoxes;
 
         //! Checkbox has been changed
-        void onCheckboxChanged(Qt::CheckState state);
+        void onCheckboxChanged(int state);
 
         //! Interpolator mode
         void onInterpolatorModeChanged(bool checked);

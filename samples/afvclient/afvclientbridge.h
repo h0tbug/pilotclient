@@ -7,6 +7,7 @@
 #define SAMPLES_AFVCLIENTBRIDGE_H
 
 #include <QObject>
+#include <QStringBuilder>
 
 #include "core/afv/clients/afvclient.h"
 

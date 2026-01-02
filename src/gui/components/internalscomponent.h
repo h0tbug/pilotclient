@@ -39,7 +39,7 @@ namespace swift::gui::components
 
     private:
         //! Enable / disable debugging
-        void enableDebug(Qt::CheckState checkState);
+        void enableDebug(int state);
 
         //! Send the text message
         void sendTextMessage();
@@ -75,7 +75,7 @@ namespace swift::gui::components
         void networkStatistics();
 
         //! Enable/disable statistics
-        void onNetworkStatisticsToggled(bool checked);
+        void onNetworkStatisticsToggled(int state);
 
         QScopedPointer<Ui::CInternalsComponent> ui;
     };

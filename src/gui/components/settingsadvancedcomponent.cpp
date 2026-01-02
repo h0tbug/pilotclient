@@ -16,13 +16,13 @@ namespace swift::gui::components
 
         const bool crashDumpUploadEnabled = m_crashDumpUploadEnabled.getThreadLocal();
         ui->cb_crashDumpsUpload->setChecked(crashDumpUploadEnabled);
-        connect(ui->cb_crashDumpsUpload, &QCheckBox::checkStateChanged, this,
+        connect(ui->cb_crashDumpsUpload, &QCheckBox::stateChanged, this,
                 &CSettingsAdvancedComponent::crashDumpUploadEnabledChanged);
     }
 
     CSettingsAdvancedComponent::~CSettingsAdvancedComponent() = default;
 
-    void CSettingsAdvancedComponent::crashDumpUploadEnabledChanged(Qt::CheckState state)
+    void CSettingsAdvancedComponent::crashDumpUploadEnabledChanged(int state)
     {
         auto text = ui->cb_crashDumpsUpload->text();
         if (!text.endsWith("(restart needed)"))

@@ -4,6 +4,7 @@
 #include "fsdsetupform.h"
 
 #include <QCompleter>
+#include <QStringList>
 
 #include "ui_fsdsetupform.h"
 
@@ -20,7 +21,10 @@ namespace swift::gui::editors
         ui->setupUi(this);
         this->resetToDefaultValues();
         ui->cb_Override->setChecked(true);
-        ui->le_TextCodec->setCompleter(new QCompleter(QStringDecoder::availableCodecs(), this));
+        // Qt6 QStringConverter supports limited encodings
+        static const QStringList codecs = { "UTF-8", "UTF-16", "UTF-16BE", "UTF-16LE",
+                                            "UTF-32", "UTF-32BE", "UTF-32LE", "ISO-8859-1", "Latin1" };
+        ui->le_TextCodec->setCompleter(new QCompleter(codecs, this));
         connect(ui->cb_Override, &QCheckBox::toggled, this, &CFsdSetupForm::enabledToggled, Qt::QueuedConnection);
         connect(ui->pb_SetDefaults, &QPushButton::clicked, this, &CFsdSetupForm::resetToDefaultValues);
     }

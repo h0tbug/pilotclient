@@ -41,6 +41,8 @@
 #include <QQueue>
 #include <QReadWriteLock>
 #include <QString>
+#include <QStringDecoder>
+#include <QStringEncoder>
 #include <QTcpSocket>
 #include <QTimer>
 #include <QtGlobal>

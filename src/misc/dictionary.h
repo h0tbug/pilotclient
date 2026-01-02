@@ -456,10 +456,34 @@ namespace swift::misc
 
     public:
         //! \copydoc swift::misc::CValueObject::marshallToDbus
-        void marshallToDbus(QDBusArgument &argument) const { argument << m_impl; }
+        void marshallToDbus(QDBusArgument &argument) const
+        {
+            argument.beginMap(qMetaTypeId<Key>(), qMetaTypeId<Value>());
+            for (auto it = m_impl.cbegin(); it != m_impl.cend(); ++it)
+            {
+                argument.beginMapEntry();
+                argument << it.key() << it.value();
+                argument.endMapEntry();
+            }
+            argument.endMap();
+        }
 
         //! \copydoc swift::misc::CValueObject::unmarshallFromDbus
-        void unmarshallFromDbus(const QDBusArgument &argument) { argument >> m_impl; }
+        void unmarshallFromDbus(const QDBusArgument &argument)
+        {
+            m_impl.clear();
+            argument.beginMap();
+            while (!argument.atEnd())
+            {
+                Key key;
+                Value value;
+                argument.beginMapEntry();
+                argument >> key >> value;
+                argument.endMapEntry();
+                m_impl.insert(key, value);
+            }
+            argument.endMap();
+        }
 
         //! \copydoc swift::misc::mixin::DataStreamByMetaClass::marshalToDataStream
         void marshalToDataStream(QDataStream &stream) const { stream << m_impl; }

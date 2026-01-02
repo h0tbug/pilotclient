@@ -33,7 +33,7 @@ namespace swift::gui::components
         ~CSettingsAdvancedComponent() override;
 
     private:
-        void crashDumpUploadEnabledChanged(Qt::CheckState state);
+        void crashDumpUploadEnabledChanged(int state);
 
         QScopedPointer<Ui::CSettingsAdvancedComponent> ui;
         swift::misc::CSetting<swift::core::application::TCrashDumpUploadEnabled> m_crashDumpUploadEnabled { this };

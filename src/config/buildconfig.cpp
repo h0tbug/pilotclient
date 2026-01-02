@@ -123,7 +123,7 @@ namespace swift::config
 
     const QString &CBuildConfig::getVersionStringPlatform()
     {
-        static const QString s = getPlatformString() % u' ' % getVersionString();
+        static const QString s = getPlatformString() + " " + getVersionString();
         return s;
     }
 

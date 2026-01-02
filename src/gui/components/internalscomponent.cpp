@@ -54,11 +54,11 @@ namespace swift::gui::components
         ui->le_TxtMsgTo->setValidator(new CUpperCaseValidator(ui->le_TxtMsgFrom));
         ui->le_AtisCallsign->setValidator(new CUpperCaseValidator(ui->le_AtisCallsign));
 
-        connect(ui->cb_DebugContextAudio, &QCheckBox::checkStateChanged, this, &CInternalsComponent::enableDebug);
-        connect(ui->cb_DebugContextApplication, &QCheckBox::checkStateChanged, this, &CInternalsComponent::enableDebug);
-        connect(ui->cb_DebugContextNetwork, &QCheckBox::checkStateChanged, this, &CInternalsComponent::enableDebug);
-        connect(ui->cb_DebugContextOwnAircraft, &QCheckBox::checkStateChanged, this, &CInternalsComponent::enableDebug);
-        connect(ui->cb_DebugContextSimulator, &QCheckBox::checkStateChanged, this, &CInternalsComponent::enableDebug);
+        connect(ui->cb_DebugContextAudio, &QCheckBox::stateChanged, this, &CInternalsComponent::enableDebug);
+        connect(ui->cb_DebugContextApplication, &QCheckBox::stateChanged, this, &CInternalsComponent::enableDebug);
+        connect(ui->cb_DebugContextNetwork, &QCheckBox::stateChanged, this, &CInternalsComponent::enableDebug);
+        connect(ui->cb_DebugContextOwnAircraft, &QCheckBox::stateChanged, this, &CInternalsComponent::enableDebug);
+        connect(ui->cb_DebugContextSimulator, &QCheckBox::stateChanged, this, &CInternalsComponent::enableDebug);
 
         connect(ui->pb_SendTextMessageDirectly, &QPushButton::released, this, &CInternalsComponent::sendTextMessage,
                 Qt::QueuedConnection);
@@ -74,7 +74,7 @@ namespace swift::gui::components
 
         connect(ui->pb_NetworkUpdateAndReset, &QPushButton::released, this, &CInternalsComponent::networkStatistics);
         connect(ui->pb_NetworkUpdate, &QPushButton::released, this, &CInternalsComponent::networkStatistics);
-        connect(ui->cb_NetworkStatistics, &QCheckBox::checkStateChanged, this,
+        connect(ui->cb_NetworkStatistics, &QCheckBox::stateChanged, this,
                 &CInternalsComponent::onNetworkStatisticsToggled);
 
         if (sGui && sGui->isSupportingCrashpad())
@@ -104,7 +104,7 @@ namespace swift::gui::components
         QWidget::showEvent(event);
     }
 
-    void CInternalsComponent::enableDebug(Qt::CheckState checkState)
+    void CInternalsComponent::enableDebug(int state)
     {
         Q_ASSERT(sGui->getIContextApplication());
         Q_ASSERT(sGui->getIContextAudio());
@@ -112,7 +112,7 @@ namespace swift::gui::components
         Q_ASSERT(sGui->getIContextOwnAircraft());
         Q_ASSERT(sGui->getIContextSimulator());
 
-        const bool debug = (checkState == Qt::Checked);
+        const bool debug = (state == Qt::Checked);
         const QObject *sender = QObject::sender();
 
         if (sender == ui->cb_DebugContextApplication) { sGui->getIContextApplication()->setDebugEnabled(debug); }
@@ -242,10 +242,10 @@ namespace swift::gui::components
         ui->pte_NetworkCalls->setPlainText(statistics);
     }
 
-    void CInternalsComponent::onNetworkStatisticsToggled(bool checked)
+    void CInternalsComponent::onNetworkStatisticsToggled(int state)
     {
         if (!sGui || sGui->isShuttingDown() || !sGui->getIContextNetwork()) { return; }
-        const bool on = sGui->getIContextNetwork()->setNetworkStatisticsEnable(checked);
+        const bool on = sGui->getIContextNetwork()->setNetworkStatisticsEnable(state == Qt::Checked);
         CLogMessage(this).info(u"Network statistics is %1") << boolToOnOff(on);
     }
 } // namespace swift::gui::components

@@ -11,6 +11,7 @@
 #include <QObject>
 #include <QSignalSpy>
 #include <QTest>
+#include <QTimeZone>
 
 #include "test.h"
 

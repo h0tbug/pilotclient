@@ -3,6 +3,8 @@
 
 #include "misc/network/fsdsetup.h"
 
+#include <QStringConverter>
+#include <QStringDecoder>
 #include <QtGlobal>
 
 #include "misc/comparefunctions.h"
@@ -87,7 +89,7 @@ namespace swift::misc::network
         {
             msgs.push_back(CStatusMessage(CStatusMessage::SeverityError, u"No codec"));
         }
-        if (!QStringDecoder::availableCodecs().contains(this->getTextCodec()))
+        if (!QStringDecoder(this->getTextCodec().toLatin1().constData()).isValid())
         {
             msgs.push_back(CStatusMessage(CStatusMessage::SeverityError, u"Unrecognized codec name"));
         }

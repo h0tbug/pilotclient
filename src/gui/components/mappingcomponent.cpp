@@ -114,7 +114,7 @@ namespace swift::gui::components
         this->setForceSmall(true);
 
         // Aircraft previews
-        connect(ui->cb_AircraftIconDisplayed, &QCheckBox::checkStateChanged, this,
+        connect(ui->cb_AircraftIconDisplayed, &QCheckBox::stateChanged, this,
                 &CMappingComponent::onModelPreviewChanged);
 
         // model string completer
@@ -423,7 +423,7 @@ namespace swift::gui::components
         this->showOverlayHTMLMessage(msg, 3s);
     }
 
-    void CMappingComponent::onModelPreviewChanged(Qt::CheckState state)
+    void CMappingComponent::onModelPreviewChanged(int state)
     {
         Q_UNUSED(state);
         this->closeOverlay();

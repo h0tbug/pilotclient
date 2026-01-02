@@ -52,3 +52,12 @@ cmake-build-*/
 /dist/
 CMakeUserPresets.json
 /third_party/externals
+
+.venv/
+build_conan/
+build/
+**/Cmake*
+**/CMake*
+**/cmake*
+build.ninja
+.qt/

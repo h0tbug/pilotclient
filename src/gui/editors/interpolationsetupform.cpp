@@ -20,7 +20,7 @@ namespace swift::gui::editors
         m_allCheckBoxes = this->findChildren<QCheckBox *>(QString(), Qt::FindDirectChildrenOnly);
         for (QCheckBox *cb : std::as_const(m_allCheckBoxes))
         {
-            connect(cb, &QCheckBox::checkStateChanged, this, &CInterpolationSetupForm::onCheckboxChanged);
+            connect(cb, &QCheckBox::stateChanged, this, &CInterpolationSetupForm::onCheckboxChanged);
         }
 
         // one connect is enough, otherwise 2 change signals
@@ -79,7 +79,7 @@ namespace swift::gui::editors
         return {};
     }
 
-    void CInterpolationSetupForm::onCheckboxChanged(Qt::CheckState state)
+    void CInterpolationSetupForm::onCheckboxChanged(int state)
     {
         Q_UNUSED(state)
         emit this->valueChanged();

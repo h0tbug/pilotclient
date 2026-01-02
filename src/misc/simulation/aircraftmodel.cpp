@@ -523,7 +523,7 @@ namespace swift::misc::simulation
 
     QDateTime CAircraftModel::getFileTimestamp() const
     {
-        return this->hasValidFileTimestamp() ? QDateTime::fromMSecsSinceEpoch(m_fileTimestamp, QTimeZone::utc()) :
+        return this->hasValidFileTimestamp() ? QDateTime::fromMSecsSinceEpoch(m_fileTimestamp, Qt::UTC) :
                                                QDateTime();
     }
 

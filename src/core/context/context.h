@@ -134,7 +134,7 @@ namespace swift::core::context
         //! Path and context id
         QString buildPathAndContextId(const QString &path) const
         {
-            return path % u':' % QString::number(this->getUniqueId());
+            return path + ':' + QString::number(this->getUniqueId());
         }
 
         //! Relay signals from this class

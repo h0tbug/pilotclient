@@ -144,7 +144,7 @@ namespace swift::core::fsd
                    "Can't change server details while still connected");
 
         const QString codecName(server.getFsdSetup().getTextCodec());
-        auto codec = QStringDecoder::encodingForName(codecName);
+        auto codec = QStringDecoder::encodingForName(codecName.toLatin1().constData());
         if (!codec.has_value()) { codec = QStringConverter::Utf8; }
         const int protocolRev = (server.getServerType() == CServer::FSDServerVatsim) ?
                                     PROTOCOL_REVISION_VATSIM_VELOCITY :

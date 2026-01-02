@@ -118,7 +118,7 @@ namespace swift::misc
         {
             QString time =
                 contains(key) ?
-                    QDateTime::fromMSecsSinceEpoch(value(key).second, QTimeZone::utc()).toString(Qt::ISODate) :
+                    QDateTime::fromMSecsSinceEpoch(value(key).second, Qt::UTC).toString(Qt::ISODate) :
                     "no timestamp";
             result.push_back(key + " (" + time + ")");
         }

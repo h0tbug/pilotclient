@@ -9,8 +9,10 @@
  */
 
 #include <QElapsedTimer>
+#include <QStringConverter>
 #include <QTest>
 #include <QTime>
+#include <QTimeZone>
 
 #include "test.h"
 

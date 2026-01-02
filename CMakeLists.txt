@@ -79,9 +79,9 @@ endif()
 
 
 # VATSIM related options
-option(SWIFT_VATSIM_SUPPORT "Build with VATSIM support" ON)
+option(SWIFT_VATSIM_SUPPORT "Build with VATSIM support" OFF)
 set(VATSIM_KEY_JSON "" CACHE STRING "Path to JSON containing VATSIM key")
-load_vatsim_key()
+# load_vatsim_key()
 if(SWIFT_VATSIM_SUPPORT)
     add_compile_definitions(SWIFT_VATSIM_SUPPORT)
 endif()
