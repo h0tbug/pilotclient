@@ -56,7 +56,7 @@ namespace XSwiftBus
         XPLMRegisterFlightLoopCallback(startServerDeferred, -1, this);
 
         m_atisSaved = m_atisEnabled.get();
-        m_atisEnabled.set(0);
+        m_atisEnabled.set(1);
     }
 
     CPlugin::~CPlugin()
@@ -87,6 +87,10 @@ namespace XSwiftBus
 
         m_service = std::make_unique<CService>(this);
         m_traffic = std::make_unique<CTraffic>(this);
+
+        m_service->setToggleLabelsCallback([this] {
+            if (m_traffic) { m_traffic->setDrawingLabels(!m_traffic->isDrawingLabels()); }
+        });
 
         m_traffic->setPlaneViewMenu(m_planeViewSubMenu);
 

@@ -318,6 +318,12 @@ namespace XSwiftBus
         //! Enable/disable message window disappearing again after x ms
         void setDisappearMessageWindow(bool enabled) { m_disappearMessageWindow = enabled; }
 
+        //! Set the callback for toggling aircraft labels
+        void setToggleLabelsCallback(std::function<void()> callback)
+        {
+            m_messages.setToggleLabelsCallback(std::move(callback));
+        }
+
         //! Enable/disable message window disappearing after x ms
         void setDisappearMessageWindowTimeMs(int durationMs);
 

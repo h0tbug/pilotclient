@@ -172,6 +172,12 @@ namespace XSwiftBus
         m_messageBox.setMessages(start, end);
         m_messageBox.enableArrows(m_position > lines, m_position < m_messages.size());
     }
+
+    void CMessageBoxControl::setToggleLabelsCallback(std::function<void()> callback)
+    {
+        m_toggleLabelsCommand = std::make_unique<CCommand>(
+            "org/swift-project/xswiftbus/toggle_labels", "Toggle Show/Hide Aircraft Labels", std::move(callback));
+    }
 } // namespace XSwiftBus
 
 //! \endcond
