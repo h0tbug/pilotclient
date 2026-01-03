@@ -22,10 +22,14 @@ namespace XSwiftBus
     CPlugin::CPlugin()
         : m_dbusConnection(std::make_shared<CDBusConnection>()), m_menu(CMenu::mainMenu().subMenu("xswiftbus"))
     {
-        m_showHideLabelsMenuItem = m_menu.item("Show/Hide Aircraft Labels",
-                                               [this] { m_traffic->setDrawingLabels(!m_traffic->isDrawingLabels()); });
-        m_enableDisableXPlaneAtisMenuItem =
-            m_menu.item("Enable/Disable X-Plane ATIS", [this] { m_atisEnabled.set(m_atisEnabled.get() ? 0 : 1); });
+        m_showHideLabelsMenuItem = m_menu.item("Show Aircraft Labels", [this] {
+            m_traffic->setDrawingLabels(!m_traffic->isDrawingLabels());
+            updateLabelsMenuText();
+        });
+        m_enableDisableXPlaneAtisMenuItem = m_menu.item("Disable X-Plane ATIS", [this] {
+            m_atisEnabled.set(m_atisEnabled.get() ? 0 : 1);
+            updateAtisMenuText();
+        });
         m_messageWindowSubMenu = m_menu.subMenu("Message Window");
         m_toggleMessageWindowMenuItem =
             m_messageWindowSubMenu.item("Show/Hide", [this] { m_service->toggleMessageBoxVisibility(); });
@@ -89,10 +93,15 @@ namespace XSwiftBus
         m_traffic = std::make_unique<CTraffic>(this);
 
         m_service->setToggleLabelsCallback([this] {
-            if (m_traffic) { m_traffic->setDrawingLabels(!m_traffic->isDrawingLabels()); }
+            if (m_traffic)
+            {
+                m_traffic->setDrawingLabels(!m_traffic->isDrawingLabels());
+                updateLabelsMenuText();
+            }
         });
 
         m_traffic->setPlaneViewMenu(m_planeViewSubMenu);
+        updateLabelsMenuText();
 
         if (m_pluginConfig.getDBusMode() == CConfig::DBusP2P)
         {
@@ -141,6 +150,21 @@ namespace XSwiftBus
         const std::string msg = "xswiftbus " + m_service->getVersionNumber() + " started.";
         INFO_LOG(msg);
         m_service->addTextMessage(msg, 0, 255, 255);
+    }
+
+    void CPlugin::updateLabelsMenuText()
+    {
+        if (m_traffic)
+        {
+            m_showHideLabelsMenuItem.setName(m_traffic->isDrawingLabels() ? "Hide Aircraft Labels"
+                                                                          : "Show Aircraft Labels");
+        }
+    }
+
+    void CPlugin::updateAtisMenuText()
+    {
+        m_enableDisableXPlaneAtisMenuItem.setName(m_atisEnabled.get() ? "Disable X-Plane ATIS"
+                                                                      : "Enable X-Plane ATIS");
     }
 
     void CPlugin::onAircraftModelChanged()

@@ -36,6 +36,9 @@ namespace XSwiftBus
         //! Enables or disabled the menu item
         void setEnabled(bool enabled);
 
+        //! Sets the name/text of the menu item
+        void setName(const std::string &name);
+
     private:
         friend class CMenu;
 
