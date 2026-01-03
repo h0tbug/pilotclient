@@ -26,6 +26,23 @@ namespace XSwiftBus
             m_traffic->setDrawingLabels(!m_traffic->isDrawingLabels());
             updateLabelsMenuText();
         });
+        m_labelDistanceMenuItem = m_menu.item("Aircraft Labels Distance...", [this] {
+            if (!m_labelDistanceWindow)
+            {
+                double currentDistance = getSettings().getMaxLabelDistanceNM();
+                m_labelDistanceWindow = std::make_unique<CLabelDistanceWindow>(currentDistance, [this](double nm) {
+                    if (m_traffic)
+                    {
+                        m_traffic->setMaxLabelDistance(nm);
+                    }
+                });
+            }
+            else
+            {
+                m_labelDistanceWindow->setValue(getSettings().getMaxLabelDistanceNM());
+            }
+            m_labelDistanceWindow->show();
+        });
         m_enableDisableXPlaneAtisMenuItem = m_menu.item("Disable X-Plane ATIS", [this] {
             m_atisEnabled.set(m_atisEnabled.get() ? 0 : 1);
             updateAtisMenuText();

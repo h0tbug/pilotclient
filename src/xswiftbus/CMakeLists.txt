@@ -33,6 +33,8 @@ add_library(xswiftbus SHARED
         menus.h
         messages.cpp
         messages.h
+        labeldistancewindow.cpp
+        labeldistancewindow.h
         plugin.cpp
         plugin.h
         service.cpp

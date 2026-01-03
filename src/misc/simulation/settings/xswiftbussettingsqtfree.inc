@@ -21,6 +21,7 @@ constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::Json
 constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::JsonDrawingLabels[];
 constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::JsonMaxPlanes[];
 constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::JsonMaxDrawDistance[];
+constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::JsonMaxLabelDistance[];
 constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::JsonFollowAircraftDistanceM[];
 constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::JsonNightTextureMode[];
 constexpr char swift::misc::simulation::settings::CXSwiftBusSettingsQtFree::JsonMessageBox[];
@@ -108,6 +109,12 @@ namespace swift::misc::simulation::settings
             m_maxDrawDistanceNM = parsed[CXSwiftBusSettingsQtFree::JsonMaxDrawDistance].get<double>();
             c++;
         }
+        if (parsed.contains(CXSwiftBusSettingsQtFree::JsonMaxLabelDistance) &&
+            parsed[CXSwiftBusSettingsQtFree::JsonMaxLabelDistance].is_number_float())
+        {
+            m_maxLabelDistanceNM = parsed[CXSwiftBusSettingsQtFree::JsonMaxLabelDistance].get<double>();
+            c++;
+        }
         if (parsed.contains(CXSwiftBusSettingsQtFree::JsonFollowAircraftDistanceM) &&
             parsed[CXSwiftBusSettingsQtFree::JsonFollowAircraftDistanceM].is_number_integer())
         {
@@ -133,6 +140,7 @@ namespace swift::misc::simulation::settings
         json[JsonMessageBox] = m_msgBox;
         json[JsonMaxPlanes] = m_maxPlanes;
         json[JsonMaxDrawDistance] = m_maxDrawDistanceNM;
+        json[JsonMaxLabelDistance] = m_maxLabelDistanceNM;
         json[JsonTimestamp] = m_msSinceEpochQtFree;
         json[JsonDrawingLabels] = m_drawingLabels;
         json[JsonLabelColor] = m_labelColor;
@@ -156,6 +164,7 @@ namespace swift::misc::simulation::settings
                ", terr.probe: " + qtfreeutils::boolToYesNo(m_terrainProbeEnabled) +
                ", night t.: " + m_nightTextureMode + ", max planes: " + std::to_string(m_maxPlanes) +
                ", max distance NM: " + std::to_string(m_maxDrawDistanceNM) +
+               ", max label distance NM: " + std::to_string(m_maxLabelDistanceNM) +
                ", follow dist m: " + std::to_string(m_followAircraftDistanceM) + ", msg.box: " + m_msgBox +
                ", ts: " + std::to_string(m_msSinceEpochQtFree);
     }
@@ -226,6 +235,11 @@ namespace swift::misc::simulation::settings
         if (!qtfreeutils::isFuzzyEqual(m_maxDrawDistanceNM, newValues.m_maxDrawDistanceNM))
         {
             m_maxDrawDistanceNM = newValues.m_maxDrawDistanceNM;
+            changed++;
+        }
+        if (!qtfreeutils::isFuzzyEqual(m_maxLabelDistanceNM, newValues.m_maxLabelDistanceNM))
+        {
+            m_maxLabelDistanceNM = newValues.m_maxLabelDistanceNM;
             changed++;
         }
 

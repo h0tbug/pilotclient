@@ -23,6 +23,7 @@
 #include "dbusdispatcher.h"
 #include "dbusserver.h"
 #include "datarefs.h"
+#include "labeldistancewindow.h"
 #include "menus.h"
 #include "config.h"
 #include "settings.h"
@@ -78,6 +79,8 @@ namespace XSwiftBus
         std::unique_ptr<CTraffic> m_traffic;
         CMenu m_menu;
         CMenuItem m_showHideLabelsMenuItem;
+        CMenuItem m_labelDistanceMenuItem;
+        std::unique_ptr<CLabelDistanceWindow> m_labelDistanceWindow;
         CMenuItem m_enableDisableXPlaneAtisMenuItem;
         CMenu m_messageWindowSubMenu;
         CMenuItem m_toggleMessageWindowMenuItem;
