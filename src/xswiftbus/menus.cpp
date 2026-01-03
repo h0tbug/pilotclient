@@ -117,6 +117,11 @@ namespace XSwiftBus
 
     void CMenuItem::setEnabled(bool enabled) { XPLMEnableMenuItem(m_data->parent, m_data->index, enabled); }
 
+    void CMenuItem::setName(const std::string &name)
+    {
+        XPLMSetMenuItemName(m_data->parent, m_data->index, name.c_str(), 0);
+    }
+
 } // namespace XSwiftBus
 
 //! \endcond
