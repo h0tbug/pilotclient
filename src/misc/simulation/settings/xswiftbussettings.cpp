@@ -25,6 +25,7 @@ namespace swift::misc::simulation::settings
         case IndexDrawingLabels: return QVariant::fromValue(m_drawingLabels);
         case IndexBundleTaxiLandingLights: return QVariant::fromValue(m_bundleTaxiLandingLights);
         case IndexMaxDrawingDistance: return QVariant::fromValue(m_maxDrawDistanceNM);
+        case IndexMaxLabelDistance: return QVariant::fromValue(m_maxLabelDistanceNM);
         case IndexFollowAircraftDistance: return QVariant::fromValue(m_followAircraftDistanceM);
         default: break;
         }
@@ -50,6 +51,7 @@ namespace swift::misc::simulation::settings
         case IndexDrawingLabels: m_drawingLabels = variant.toBool(); break;
         case IndexBundleTaxiLandingLights: m_bundleTaxiLandingLights = variant.toBool(); break;
         case IndexMaxDrawingDistance: m_maxDrawDistanceNM = variant.toDouble(); break;
+        case IndexMaxLabelDistance: m_maxLabelDistanceNM = variant.toDouble(); break;
         case IndexFollowAircraftDistance: m_followAircraftDistanceM = variant.toInt(); break;
         default: CValueObject::setPropertyByIndex(index, variant); break;
         }

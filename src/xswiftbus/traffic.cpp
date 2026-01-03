@@ -73,6 +73,7 @@ namespace XSwiftBus
 
         // init labels
         this->setDrawingLabels(this->getSettings().isDrawingLabels());
+        m_labels.setMaxDistanceNM(this->getSettings().getMaxLabelDistanceNM());
     }
 
     CTraffic::~CTraffic()
@@ -287,6 +288,16 @@ namespace XSwiftBus
     {
         CSettings s = this->getSettings();
         if (s.setMaxDrawDistanceNM(nauticalMiles)) { this->setSettings(s); }
+    }
+
+    void CTraffic::setMaxLabelDistance(double nauticalMiles)
+    {
+        CSettings s = this->getSettings();
+        if (s.setMaxLabelDistanceNM(nauticalMiles))
+        {
+            this->setSettings(s);
+            m_labels.setMaxDistanceNM(nauticalMiles);
+        }
     }
 
     void CTraffic::addPlane(const std::string &callsign, const std::string &modelName, const std::string &aircraftIcao,
@@ -868,8 +879,9 @@ namespace XSwiftBus
 
     void CTraffic::Labels::draw()
     {
-        static const double maxRangeM = 10000;
-        static const double metersPerFt = 0.3048;
+        static constexpr double nmToMeters = 1852.0;
+        static constexpr double metersPerFt = 0.3048;
+        const double maxRangeM = m_maxLabelDistanceNM * nmToMeters;
         std::array<float, 16> worldMat = m_worldMat.getAll();
         std::array<float, 16> projMat = m_projMat.getAll();
         double windowWidth = static_cast<double>(m_windowWidth.get());

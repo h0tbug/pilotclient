@@ -124,6 +124,18 @@ namespace swift::misc::simulation::settings
             return true;
         }
 
+        //! Get the maximum distance at which to draw aircraft labels (nautical miles).
+        double getMaxLabelDistanceNM() const { return m_maxLabelDistanceNM; }
+
+        //! Set the maximum distance at which to draw aircraft labels (nautical miles).
+        bool setMaxLabelDistanceNM(double nauticalMiles)
+        {
+            nauticalMiles = std::max(5.0, std::min(50.0, nauticalMiles)); // clamp to 5-50 NM
+            if (xplane::qtfreeutils::isFuzzyEqual(nauticalMiles, m_maxLabelDistanceNM)) { return false; }
+            m_maxLabelDistanceNM = nauticalMiles;
+            return true;
+        }
+
         //! Debug messages?
         bool isLogRenderPhases() const { return m_logRenderPhases; }
 
@@ -173,6 +185,7 @@ namespace swift::misc::simulation::settings
         static constexpr char JsonTerrainProbe[] = "terrainProbe";
         static constexpr char JsonMaxPlanes[] = "maxplanes";
         static constexpr char JsonMaxDrawDistance[] = "maxDrawDistance";
+        static constexpr char JsonMaxLabelDistance[] = "maxLabelDistance";
         static constexpr char JsonNightTextureMode[] = "nighttexture";
         static constexpr char JsonTimestamp[] = "timestamp";
         static constexpr char JsonMessageBox[] = "msgbox";
@@ -199,6 +212,7 @@ namespace swift::misc::simulation::settings
         bool m_tcasEnabled = true; //!< TCAS functionality
         bool m_terrainProbeEnabled = true; //!< terrain probe to establish ground elevation
         double m_maxDrawDistanceNM = 50.0; //!< distance in XPlane
+        double m_maxLabelDistanceNM = 5.4; //!< max label distance in XPlane (NM), default ~10km
         int64_t m_msSinceEpochQtFree = 0; //!< timestamp
     };
 } // namespace swift::misc::simulation::settings

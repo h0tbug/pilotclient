@@ -85,6 +85,9 @@ namespace XSwiftBus
         //! Set the maximum distance at which to draw aircraft (nautical miles).
         void setMaxDrawDistance(double nauticalMiles);
 
+        //! Set the maximum distance at which to draw aircraft labels (nautical miles).
+        void setMaxLabelDistance(double nauticalMiles);
+
         //! Introduce a new traffic aircraft
         void addPlane(const std::string &callsign, const std::string &modelName, const std::string &aircraftIcao,
                       const std::string &airlineIcao, const std::string &livery);
@@ -210,6 +213,8 @@ namespace XSwiftBus
                 m_color = { { static_cast<float>(r) / 255.f, static_cast<float>(g) / 255.f,
                               static_cast<float>(b) / 255.f } };
             }
+            void setMaxDistanceNM(double nm) { m_maxLabelDistanceNM = nm; }
+            double getMaxDistanceNM() const { return m_maxLabelDistanceNM; }
 
         protected:
             virtual void draw() override;
@@ -219,6 +224,7 @@ namespace XSwiftBus
             double distanceSquared(const double pos[3]) const;
             CTraffic *m_traffic = nullptr;
             std::array<float, 3> m_color { { 1.0f, 0.75f, 0.0f } };
+            double m_maxLabelDistanceNM = 5.4; //!< max label distance in NM (default ~10km)
             ArrayDataRef<xplane::data::sim::graphics::view::world_matrix> m_worldMat;
             ArrayDataRef<xplane::data::sim::graphics::view::projection_matrix_3d> m_projMat;
             DataRef<xplane::data::sim::graphics::view::window_width> m_windowWidth;

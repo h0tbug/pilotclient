@@ -35,6 +35,7 @@ namespace swift::misc::simulation::settings
             IndexBundleTaxiLandingLights,
             IndexMessageBoxMargins,
             IndexMaxDrawingDistance,
+            IndexMaxLabelDistance,
             IndexFollowAircraftDistance,
             IndexNightTextureMode
         };
@@ -102,6 +103,7 @@ namespace swift::misc::simulation::settings
             SWIFT_METAMEMBER(labelColor),
             SWIFT_METAMEMBER(bundleTaxiLandingLights),
             SWIFT_METAMEMBER(maxDrawDistanceNM),
+            SWIFT_METAMEMBER(maxLabelDistanceNM),
             SWIFT_METAMEMBER(followAircraftDistanceM),
             SWIFT_METAMEMBER(logRenderPhases),
             SWIFT_METAMEMBER(tcasEnabled),
