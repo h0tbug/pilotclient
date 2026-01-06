@@ -109,6 +109,13 @@ namespace XSwiftBus
         m_service = std::make_unique<CService>(this);
         m_traffic = std::make_unique<CTraffic>(this);
 
+        // Read label distance from file and apply it
+        double savedDistance = readLabelDistanceFromFile();
+        if (m_traffic)
+        {
+            m_traffic->setMaxLabelDistance(savedDistance);
+        }
+
         m_service->setToggleLabelsCallback([this] {
             if (m_traffic)
             {

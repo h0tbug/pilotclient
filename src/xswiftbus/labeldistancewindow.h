@@ -15,6 +15,19 @@
 namespace XSwiftBus
 {
     /*!
+     * Read label distance from file.
+     * \return The distance value in nautical miles, or default value (5) if file doesn't exist or read fails.
+     */
+    double readLabelDistanceFromFile();
+
+    /*!
+     * Write label distance to file.
+     * \param distance The distance value in nautical miles to save.
+     * \return true if write succeeded, false otherwise (does not throw).
+     */
+    bool writeLabelDistanceToFile(double distance);
+
+    /*!
      * Popup window for configuring aircraft label visibility distance.
      * Uses X-Plane widgets to display a simple dialog with a slider
      * and a save button.
@@ -49,15 +62,17 @@ namespace XSwiftBus
         CLabelDistanceWindow(const CLabelDistanceWindow &) = delete;
         CLabelDistanceWindow &operator=(const CLabelDistanceWindow &) = delete;
 
+        //! Minimum label distance in nautical miles
+        static constexpr int MinDistance = 5;
+        //! Maximum label distance in nautical miles
+        static constexpr int MaxDistance = 50;
+
     private:
         static int widgetCallback(XPWidgetMessage message, XPWidgetID widget, intptr_t param1, intptr_t param2);
         void createWidgets();
         void destroyWidgets();
         void handleSave();
         void updateValueLabel();
-
-        static constexpr int MinDistance = 5;
-        static constexpr int MaxDistance = 50;
 
         int m_currentValue = 5;
         SaveCallback m_onSave;

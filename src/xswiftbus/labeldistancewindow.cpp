@@ -4,12 +4,100 @@
 #include "labeldistancewindow.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cstdio>
+#include <fstream>
+#include <string>
+
+#include "utils.h"
+
+#include "misc/simulation/xplane/qtfreeutils.h"
 
 #include <XPLM/XPLMDisplay.h>
 
+using namespace swift::misc::simulation::xplane::qtfreeutils;
+
 namespace XSwiftBus
 {
+    double readLabelDistanceFromFile()
+    {
+        try
+        {
+            initXPlanePath();
+            const std::string filePath =
+                g_xplanePath + "Resources" + g_sep + "plugins" + g_sep + "xswiftbus" + g_sep + "labeldistance.conf";
+
+            std::ifstream configFile(filePath);
+            if (!configFile.is_open()) { return static_cast<double>(CLabelDistanceWindow::MinDistance); }
+
+            std::string line;
+            while (std::getline(configFile, line))
+            {
+                // Remove whitespace
+                line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+                if (line.empty() || line[0] == '#') { continue; }
+
+                auto delimiterPos = line.find("=");
+                if (delimiterPos == std::string::npos) { continue; }
+
+                std::string key = line.substr(0, delimiterPos);
+                std::string value = line.substr(delimiterPos + 1);
+
+                if (key.empty() || value.empty()) { continue; }
+
+                // Check if this is the labelDistance key (case-insensitive)
+                if (stringCompareCaseInsensitive(key, "labelDistance"))
+                {
+                    try
+                    {
+                        double distance = std::stod(value);
+                        // Clamp to valid range
+                        int clampedDistance = (std::max)(CLabelDistanceWindow::MinDistance,
+                                                         (std::min)(CLabelDistanceWindow::MaxDistance, static_cast<int>(distance + 0.5)));
+                        return static_cast<double>(clampedDistance);
+                    }
+                    catch (...)
+                    {
+                        // Invalid value, return default
+                        return static_cast<double>(CLabelDistanceWindow::MinDistance);
+                    }
+                }
+            }
+        }
+        catch (...)
+        {
+            // Any error, return default
+        }
+
+        return static_cast<double>(CLabelDistanceWindow::MinDistance);
+    }
+
+    bool writeLabelDistanceToFile(double distance)
+    {
+        try
+        {
+            initXPlanePath();
+            const std::string filePath =
+                g_xplanePath + "Resources" + g_sep + "plugins" + g_sep + "xswiftbus" + g_sep + "labeldistance.conf";
+
+            std::ofstream configFile(filePath, std::ofstream::out | std::ofstream::trunc);
+            if (!configFile.is_open()) { return false; }
+
+            // Clamp to valid range
+            int clampedDistance = (std::max)(CLabelDistanceWindow::MinDistance,
+                                             (std::min)(CLabelDistanceWindow::MaxDistance, static_cast<int>(distance + 0.5)));
+
+            configFile << "labelDistance=" << clampedDistance << std::endl;
+            configFile.close();
+            return true;
+        }
+        catch (...)
+        {
+            // Any error, return false but don't throw
+            return false;
+        }
+    }
+
     CLabelDistanceWindow::CLabelDistanceWindow(double initialValue, SaveCallback onSave)
         : m_currentValue((std::max)(MinDistance, (std::min)(MaxDistance, static_cast<int>(initialValue + 0.5)))),
           m_onSave(std::move(onSave))
@@ -169,6 +257,9 @@ namespace XSwiftBus
 
         // Get current slider position
         m_currentValue = static_cast<int>(XPGetWidgetProperty(m_sliderWidget, xpProperty_ScrollBarSliderPosition, nullptr));
+
+        // Save to file (silently handle failures)
+        writeLabelDistanceToFile(static_cast<double>(m_currentValue));
 
         // Call callback with the value
         if (m_onSave)
